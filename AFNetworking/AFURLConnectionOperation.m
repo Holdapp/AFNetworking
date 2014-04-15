@@ -736,7 +736,6 @@ didReceiveResponse:(NSURLResponse *)response
     didReceiveData:(NSData *)data
 {
     [_buffer appendData:data];
-    NSUInteger length = [data length];
     if (_callToSaveData) {
         _callToSaveData = NO;
         [self stream:self.outputStream handleEvent:NSStreamEventHasSpaceAvailable];
@@ -782,7 +781,7 @@ didReceiveResponse:(NSURLResponse *)response
         case NSStreamEventHasSpaceAvailable:
         {
             uint8_t *readBytes = (uint8_t *)[_buffer mutableBytes];
-            int data_len = [_buffer length];
+            NSUInteger data_len = [_buffer length];
             if (data_len > 0) {
                 long len = ((data_len >= 1024) ?
                             1024 : data_len);
@@ -820,6 +819,8 @@ didReceiveResponse:(NSURLResponse *)response
             [self.connection cancel];
             [self finishOperation];
         }
+            break;
+        default:
             break;
     }
 }
