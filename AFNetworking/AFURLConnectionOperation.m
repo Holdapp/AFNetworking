@@ -22,6 +22,8 @@
 
 #import "AFURLConnectionOperation.h"
 
+#define kNumberOfBytesToSave 16384
+
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import <UIKit/UIKit.h>
 #endif
@@ -783,8 +785,8 @@ didReceiveResponse:(NSURLResponse *)response
             uint8_t *readBytes = (uint8_t *)[_buffer mutableBytes];
             NSUInteger data_len = [_buffer length];
             if (data_len > 0) {
-                long len = ((data_len >= 1024) ?
-                            1024 : data_len);
+                long len = ((data_len >= kNumberOfBytesToSave) ?
+                            kNumberOfBytesToSave : data_len);
                 uint8_t buf[len];
                 (void)memcpy(buf, readBytes, len);
                 len = [_outputStream write:(const uint8_t *)buf maxLength:len];
