@@ -1,4 +1,4 @@
-// UIWebView+AFNetworking.h
+// WKWebView+AFNetworking.h
 // Copyright (c) 2011–2015 Alamofire Software Foundation (http://alamofire.org/)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,6 +26,7 @@
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
 #import <UIKit/UIKit.h>
+#import <WebKit/WebKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,11 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol AFURLRequestSerialization, AFURLResponseSerialization;
 
 /**
- This category adds methods to the UIKit framework's `UIWebView` class. The methods in this category provide increased control over the request cycle, including progress monitoring and success / failure handling.
+ This category adds methods to the UIKit framework's `WKWebView` class. The methods in this category provide increased control over the request cycle, including progress monitoring and success / failure handling.
 
  @discussion When using these category methods, make sure to assign `delegate` for the web view, which implements `–webView:shouldStartLoadWithRequest:navigationType:` appropriately. This allows for tapped links to be loaded through AFNetworking, and can ensure that `canGoBack` & `canGoForward` update their values correctly.
  */
-@interface UIWebView (AFNetworking)
+@interface WKWebView (AFNetworking)
 
 /**
  The request serializer used to serialize requests made with the `-loadRequest:...` category methods. By default, this is an instance of `AFHTTPRequestSerializer`.
@@ -58,6 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error that occurred.
  */
 - (void)loadRequest:(NSURLRequest *)request
+         navigation:(WKNavigation * _Nonnull)navigation
            progress:(nullable void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
             success:(nullable NSString * (^)(NSHTTPURLResponse *response, NSString *HTML))success
             failure:(nullable void (^)(NSError *error))failure;
@@ -73,6 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error that occurred.
  */
 - (void)loadRequest:(NSURLRequest *)request
+         navigation:(WKNavigation * _Nonnull)navigation
            MIMEType:(nullable NSString *)MIMEType
    textEncodingName:(nullable NSString *)textEncodingName
            progress:(nullable void (^)(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite))progress
